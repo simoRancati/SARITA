@@ -93,7 +93,7 @@ for i in range(len(start)):
         generated_sequences.append(sequence)
 ```
 # Repository
-This Repository contains all the code used to built the [datatset](/SimoRancati/SARITA/Dataset), to [train the model](/SimoRancati/SARITA/Training), to [generate synthetic sequences](/SimoRancati/SARITA/Generation) and to [evaluate the different models](/SimoRancati/SARITA/Evaluation)
+This Repository contains all the code used to built the [datatset](/Dataset), to [train the model](/Training), to [generate synthetic sequences](/Generation) and to [evaluate the different models](/Evaluation)
 
 # IMPORTANT 
 SARITA model is public, but downloading it requires approval.  
