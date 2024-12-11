@@ -9,7 +9,7 @@ It achieves the following results on the evaluation set:
 
 Model | #Params | d_model | layers 
 --- | --- | --- | --- | 
-[**Small**](https://huggingface.co/SimoRancati/SARITA_S) | 85M  | 768 | 12 
+[Small](https://huggingface.co/SimoRancati/SARITA_S) | 85M  | 768 | 12 
 [Medium](https://huggingface.co/SimoRancati/SARITA_M) | 300M | 1024 | 24 
 [Large](https://huggingface.co/SimoRancati/SARITA_L)| 680M | 1536 | 24 
 [XLarge](https://huggingface.co/SimoRancati/SARITA_XL)| 1.2B | 2048 | 24 
@@ -92,3 +92,12 @@ for i in range(len(start)):
         sequence = tokenizer.decode(generated_ids[f], skip_special_tokens=True).replace(' ', '')
         generated_sequences.append(sequence)
 ```
+# Repository
+This Repository contains all the code used to built the [datatset](/SimoRancati/SARITA/Dataset), to [train the model](/SimoRancati/SARITA/Training), to [generate synthetic sequences](/SimoRancati/SARITA/Generation) and to [evaluate the different models](/SimoRancati/SARITA/Evaluation)
+
+# IMPORTANT 
+SARITA model is public, but downloading it requires approval.  
+To request access, go to [HuggingFace]( https://huggingface.co/SimoRancati) and click on the **Request Access** button and provide a brief explanation of your intended use.
+
+## License
+The use of this model is restricted to research purposes. Commercial use is not allowed without prior approval.
