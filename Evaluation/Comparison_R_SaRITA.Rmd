@@ -1,0 +1,586 @@
+---
+title: "Comparison_R_SaRITA"
+author: "Simone_Rancati"
+date: "2024-09-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(cowplot)
+library(Biostrings)
+library(RColorBrewer)
+library(stringr)
+library(ggrepel)
+```
+
+
+```{r setup, include=FALSE}
+PAM30 <- matrix(c(
+  6,  -7,  -4,  -5,  -7,  -3,  -4,  -6,  -5,  -7,  -7,  -7,  -6,  -9,  -2,   1,  -1, -16,  -9,  -2,
+  -7,   8,  -6, -13, -10,   0,  -6,  -8,  -3,  -9,  -9,   1,  -7, -11,  -6,  -1,  -4,  -9,  -9,  -9,
+  -4,  -6,   8,   2, -11,  -2,  -2,  -6,   0,  -8, -10,  -2,  -9, -11,  -7,   1,  -2, -17,  -8,  -9,
+  -5, -13,   2,   9, -14,  -4,   3,  -4,  -2, -11, -13,  -6, -12, -16,  -9,  -2,  -5, -18, -13, -10,
+  -7, -10, -11, -14,   9, -14, -15,  -9, -11,  -4,  -5, -14,  -7,  -5, -10,  -7,  -9, -15,  -4,  -5,
+  -3,   0,  -2,  -4, -14,   8,  -1,  -7,   1, -10,  -9,   0,  -4, -13,  -5,  -2,  -4,  -9, -10,  -9,
+  -4,  -6,  -2,   3, -15,  -1,   8,  -7,  -5,  -9, -10,  -3,  -8, -15,  -6,  -4,  -5, -16, -11,  -9,
+  -6,  -8,  -6,  -4,  -9,  -7,  -7,   9,  -8,  -9, -10,  -8, -10, -10,  -7,  -4,  -7, -17, -11,  -7,
+  -5,  -3,   0,  -2, -11,   1,  -5,  -8,  13,  -8,  -9,  -4,  -4,  -8,  -5,  -2,  -3,  -8,   2,  -8,
+  -7,  -9,  -8, -11,  -4, -10,  -9,  -9,  -8,   8,   2,  -9,   2,   0,  -9,  -7,  -5, -10,  -4,   5,
+  -7,  -9, -10, -13,  -5,  -9, -10, -10,  -9,   2,   9,  -9,   6,   4,  -9,  -8,  -5,  -5,  -6,   3,
+  -7,   1,  -2,  -6, -14,   0,  -3,  -8,  -4,  -9,  -9,   8,  -6, -14,  -6,  -2,  -5, -12, -11,  -9,
+  -6,  -7,  -9, -12,  -7,  -4,  -8, -10,  -4,   2,   6,  -6,  10,   0,  -9,  -7,  -5,  -6,  -5,   0,
+  -9, -11, -11, -16,  -5, -13, -15, -10,  -8,   0,   4, -14,   0,  11, -12,  -9,  -8,  -4,   2,  -4,
+  -2,  -6,  -7,  -9, -10,  -5,  -6,  -7,  -5,  -9,  -9,  -6,  -9, -12,  10,  -2,  -4, -15, -11,  -8,
+  1,  -1,   1,  -2,  -7,  -2,  -4,  -4,  -2,  -7,  -8,  -2,  -7,  -9,  -2,   6,   1, -10,  -4,  -6,
+  -1,  -4,  -2,  -5,  -9,  -4,  -5,  -7,  -3,  -5,  -5,  -5,  -5,  -8,  -4,   1,   7, -12,  -5,  -4,
+  -16,  -9, -17, -18, -15,  -9, -16, -17,  -8, -10,  -5, -12,  -6,  -4, -15, -10, -12,  12,  -5, -17,
+  -9,  -9,  -8, -13,  -4, -10, -11, -11,   2,  -4,  -6, -11,  -5,   2, -11,  -4,  -5,  -5,   9,  -5,
+  -2,  -9,  -9, -10,  -5,  -9,  -9,  -7,  -8,   5,   3,  -9,   0,  -4,  -8,  -6,  -4, -17,  -5,   8
+), nrow = 20, byrow = TRUE)
+
+rownames(PAM30) <- colnames(PAM30) <- c("A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V")
+
+```
+
+# NORMAL
+```{r setup, include=FALSE}
+
+base_dir <- '/Users/utente/Desktop/Varcovid/GenSeq/Model/Generattion/Sequence_Generated/'
+
+
+df <- read.csv(file.path(base_dir, 'run_clm_256_s/calc/variant_meta_df.csv'))
+df_m <- read.csv(file.path(base_dir, 'run_clm_256_m/calc/variant_meta_df.csv'))
+df_l <- read.csv(file.path(base_dir, 'run_clm_256_l/calc/variant_meta_df.csv'))
+df_xl <- read.csv(file.path(base_dir, 'run_clm_256_xl/calc/variant_meta_df.csv'))
+df_rb <- read.csv(file.path(base_dir, 'random_blosum/calc/variant_meta_df.csv'))
+df_sp <- read.csv(file.path(base_dir, 'SpikeGTP/calc/variant_meta_df.csv'))
+
+df$location <- sapply(df$Mutation, function(x) { 
+  as.numeric(substr(x, 2, str_length(x)-1)) })
+
+set.seed(42)
+
+rand.pam30.scores <- c()
+for (i in 1:sum(df$in_predict == 'True')) {
+  ix <- sample(1:20, 2)
+  rand.pam30.scores <-c(rand.pam30.scores, PAM30[ix[1], ix[2]])
+}
+
+plot.df <- data.frame(
+  group = c(rep('Train', sum(df$in_train == 'True')),
+            rep('Test', sum(df$in_test == 'True')),
+            rep('Predict', sum(df$in_predict == 'True')),
+            rep('Random', sum(df$in_predict == 'True'))),
+  pam30 = c(
+    df$PAM30[df$in_train == 'True'],
+    df$PAM30[df$in_test == 'True'],
+    df$PAM30[df$in_predict == 'True'],
+    rand.pam30.scores
+  )
+)
+
+plot.df$group <- factor(plot.df$group,
+                        levels=c('Random', 'Train', 'Test', 'Predict'),
+                        ordered=T)
+
+#
+# Make Plots
+
+ggplot(plot.df, aes(fill=group, x=group, y=pam30)) + 
+  geom_boxplot() +
+  scale_fill_manual(values=c('#dddddd', '#648fff', '#785ef0', '#dc267f')) +
+  theme_cowplot()
+ggsave(file.path(base_dir, 'fig/pam30_boxplot.png'), width=5, height=4)
+
+wilcox.test(pam30 ~ group, data=subset(plot.df, group %in% c('Predict', 'Random')))
+wilcox.test(pam30 ~ group, data=subset(plot.df, group %in% c('Train', 'Random')))
+wilcox.test(pam30 ~ group, data=subset(plot.df, group %in% c('Test', 'Random')))
+```
+
+# COMPARISON OF ALL MUTATION
+```{r setup, include=FALSE}
+# Load necessary libraries
+library(ggplot2)
+library(cowplot)
+library(stringr)
+
+# Set your base directory
+base_dir <- '/Users/utente/Desktop/Varcovid/GenSeq/Model/Generattion/Sequence_Generated/'
+
+# Load the dataframes
+df_s <- read.csv(file.path(base_dir, 'run_clm_256_s/calc/variant_meta_df.csv'))
+df_m <- read.csv(file.path(base_dir, 'run_clm_256_m/calc/variant_meta_df.csv'))
+df_l <- read.csv(file.path(base_dir, 'run_clm_256_l/calc/variant_meta_df.csv'))
+df_xl <- read.csv(file.path(base_dir, 'run_clm_256_xl/calc/variant_meta_df.csv'))
+df_rb <- read.csv(file.path(base_dir, 'random_blosum/calc/variant_meta_df.csv'))
+df_sp <- read.csv(file.path(base_dir, 'SpikeGTP/calc/variant_meta_df.csv'))
+
+# Create data frames for each group
+# Random-PAM30 group
+#random_pam30 <- data.frame(
+#  group = 'Rand PAM30',
+#  pam30 = df_rb$PAM30[df_rb$in_predict == 'True']
+#)
+
+# Train and Test groups (using df_s as an example; adjust if needed)
+train_pam30 <- data.frame(
+  group = 'Train',
+  pam30 = df_s$PAM30[df_s$in_train == 'True']
+)
+
+test_pam30 <- data.frame(
+  group = 'Test',
+  pam30 = df_s$PAM30[df_s$in_test == 'True']
+)
+
+# Predict groups from different models
+predict_s_pam30 <- data.frame(
+  group = 'SARITA S',
+  pam30 = df_s$PAM30[df_s$in_predict == 'True' & df_s$in_train == 'False' & df_s$in_test == 'False']
+)
+
+predict_m_pam30 <- data.frame(
+  group = 'SARITA M',
+  pam30 = df_m$PAM30[df_m$in_predict == 'True' & df_m$in_train == 'False' & df_m$in_test == 'False']
+)
+
+predict_l_pam30 <- data.frame(
+  group = 'SARITA L',
+  pam30 = df_l$PAM30[df_l$in_predict == 'True' & df_l$in_train == 'False' & df_l$in_test == 'False']
+)
+
+predict_xl_pam30 <- data.frame(
+  group = 'SARITA XL',
+  pam30 = df_xl$PAM30[df_xl$in_predict == 'True' & df_xl$in_train == 'False' & df_xl$in_test == 'False']
+)
+
+# predict_sp_pam30 <- data.frame(
+#   group = 'SpikeGPT2',
+#   pam30 = df_sp$PAM30[df_sp$in_predict == 'True']
+# )
+
+# Combine all data frames
+plot.df <- rbind(
+  train_pam30,
+  test_pam30,
+  predict_s_pam30,
+  predict_m_pam30,
+  predict_l_pam30,
+  predict_xl_pam30
+)
+
+# Convert 'group' to a factor to control the order in the plot
+plot.df$group <- factor(plot.df$group, levels = c('Train', 'Test', 'SARITA S', 'SARITA M', 'SARITA L', 'SARITA XL'))
+
+# Create the boxplot
+ggplot(plot.df, aes(x = group, y = pam30, fill = group)) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c('#dddddd','#dddddd', '#bcbd22', '#17becf', '#ff9896', '#98df8a')) +
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5),
+     axis.line = element_blank()) +
+  xlab('Group') + ylab('PAM30 Score') +
+  ggtitle('PAM30 Scores of Generated Mutations Across Different Models')
+
+# Save the plot
+ggsave(file.path(base_dir, 'pam30_boxplot_combined.png'), width = 8, height = 5)
+
+
+# Perform Wilcoxon tests comparing each group to Random-PAM30
+groups_to_compare <- c('Train', 'Test', 'SaRITA_S', 'SaRITA_M', 'SaRITA_L', 'SaRITA_XL', 'SpikeGPT2')
+
+```
+
+
+
+
+```{r setup, include=FALSE}
+base_dir <- '/Users/utente/Desktop/Varcovid/GenSeq/Model/Generattion/Sequence_Generated/run_clm_256_m'
+
+df <- read.csv(file.path(base_dir, 'calc/merged_substitution_info.csv'))
+df$location <- sapply(df$substitution, function(x) { 
+  as.numeric(substr(x, 2, str_length(x)-1)) })
+df$group <- factor(df$group, levels=c('Train', 'Test', 'predicted'), ordered=T)
+
+plt.mutation.density <- ggplot(df, aes(x=location, fill=group, weight=log10(frequency))) + 
+  geom_density(adjust=0.1) +
+  scale_fill_manual(values=c('#648fff', '#785ef0', '#dc267f')) +
+  facet_grid(group ~ .) +
+  theme_cowplot() + 
+  scale_x_continuous(
+    breaks=seq(from=14, to=700, by=50),
+    minor_breaks=seq(from=14, to=700, by=1),
+    limits=c(14, 700)
+  ) +
+  background_grid(minor='x')
+ggsave(file.path(base_dir, 'fig/mutation_density_plot.png'), width=12, height=5)
+
+# Build the ggplot object to access computed data
+gg <- ggplot_build(plt.mutation.density)
+
+# Extract the density data from the first layer (geom_density)
+density_data <- gg$data[[1]]
+
+density_data$group <- factor(density_data$PANEL, labels=levels(df$group))
+
+output_path <- file.path(base_dir, 'calc/density_data.csv')
+write.csv(density_data, output_path, row.names = FALSE)
+
+
+# Carica i dati dal file CSV
+density_data <- read.csv(file.path(base_dir, 'calc/density_data.csv'))
+
+# Separa i dati per ogni gruppo
+group_648fff <- density_data[density_data$fill == '#648fff', c('x', 'y')]
+group_dc267f <- density_data[density_data$fill == '#dc267f', c('x', 'y')]
+group_785ef0 <- density_data[density_data$fill == '#785ef0', c('x', 'y')]
+
+# Trova tutte le posizioni x comuni per l'interpolazione
+common_x <- sort(unique(c(group_648fff$x, group_dc267f$x, group_785ef0$x)))
+
+# Interpola i valori di densità sulle posizioni x comuni
+group_648fff_interp <- approx(group_648fff$x, group_648fff$y, xout = common_x)$y
+group_dc267f_interp <- approx(group_dc267f$x, group_dc267f$y, xout = common_x)$y
+group_785ef0_interp <- approx(group_785ef0$x, group_785ef0$y, xout = common_x)$y
+
+# Calcola le differenze tra i gruppi
+diff_648fff_dc267f <- group_648fff_interp - group_dc267f_interp
+diff_785ef0_dc267f <- group_785ef0_interp - group_dc267f_interp
+
+# Crea un dataframe con le differenze
+differences_df <- data.frame(
+  x = common_x,
+  diff_648fff_dc267f = diff_648fff_dc267f,
+  diff_785ef0_dc267f = diff_785ef0_dc267f
+)
+
+# Salva il dataframe in un file CSV
+output_path <- file.path(base_dir, 'calc/density_differences_run_clm_256_xl.csv')
+write.csv(differences_df, output_path, row.names = FALSE)
+
+# Mostra un'anteprima del dataframe
+head(differences_df)
+
+```
+
+```{r setup, include=FALSE}
+# Load necessary libraries
+library(ggplot2)
+library(cowplot)
+library(stringr)
+
+# Set your base directory
+base_dir <- '/Users/utente/Desktop/Varcovid/GenSeq/Model/Generattion/Sequence_Generated/'
+
+# Load the dataframes
+rand.pam30.scores <- c()
+for (i in 1:sum(df$in_predict == 'True')) {
+  ix <- sample(1:20, 2)
+  rand.pam30.scores <-c(rand.pam30.scores, PAM30[ix[1], ix[2]])
+}
+
+
+df_s <- read.csv(file.path(base_dir, 'run_clm_256_s/No_All/calc/variant_meta_df.csv'))
+df_m <- read.csv(file.path(base_dir, 'run_clm_256_m/No_All/calc/variant_meta_df.csv'))
+df_l <- read.csv(file.path(base_dir, 'run_clm_256_l/No_All/calc/variant_meta_df.csv'))
+df_xl <- read.csv(file.path(base_dir, 'run_clm_256_xl/No_All/calc/variant_meta_df.csv'))
+df_rb <- read.csv(file.path(base_dir, 'random_blosum/calc/variant_meta_df.csv'))
+df_sp <- read.csv(file.path(base_dir, 'SpikeGTP/No_All/calc/variant_meta_df.csv'))
+#df_ra <- read.csv(file.path(base_dir, 'random/No_All/calc/variant_meta_df.csv'))
+df_rw <- read.csv(file.path(base_dir, 'random_weighted/No_All/calc/variant_meta_df.csv'))
+df_rs <- read.csv(file.path(base_dir, 'rita_s/No_All/calc/variant_meta_df.csv'))
+df_rm <- read.csv(file.path(base_dir, 'rita_m/No_All/calc/variant_meta_df.csv'))
+df_rl <- read.csv(file.path(base_dir, 'rita_l/No_All/calc/variant_meta_df.csv'))
+df_rxl <- read.csv(file.path(base_dir, 'rita_xl/No_All/calc/variant_meta_df.csv'))
+
+# Create data frames for each group
+# Random-PAM30 group
+predict_ra_pam30 <- data.frame(
+  group = 'Rand',
+  pam30 = rand.pam30.scores
+    #df_ra$PAM30[df_ra$in_predict == 'True' & df_ra$in_train == 'False' & df_ra$in_test == 'False']
+)
+
+predict_rw_pam30 <- data.frame(
+  group = 'Rand Fr',
+  pam30 = df_rw$PAM30[df_rw$in_predict == 'True' & df_rw$in_train == 'False' & df_rw$in_test == 'False']
+)
+
+random_pam30 <- data.frame(
+  group = 'Rand PAM30',
+  pam30 = df_rb$PAM30[df_rb$in_predict == 'True' & df_rb$in_train == 'False' & df_rb$in_test == 'False']
+)
+
+# Train and Test groups (using df_s as an example; adjust if needed)
+train_pam30 <- data.frame(
+  group = 'Train',
+  pam30 = df_s$PAM30[df_s$in_train == 'True']
+)
+
+test_pam30 <- data.frame(
+  group = 'Test',
+  pam30 = df_s$PAM30[df_s$in_test == 'True']
+)
+
+# Predict groups from different models
+predict_s_pam30 <- data.frame(
+  group = 'SARITA S',
+  pam30 = df_s$PAM30[df_s$in_predict == 'True' & df_s$in_train == 'False' & df_s$in_test == 'False']
+)
+
+predict_m_pam30 <- data.frame(
+  group = 'SARITA M',
+  pam30 = df_m$PAM30[df_m$in_predict == 'True' & df_m$in_train == 'False' & df_m$in_test == 'False']
+)
+
+predict_l_pam30 <- data.frame(
+  group = 'SARITA L',
+  pam30 = df_l$PAM30[df_l$in_predict == 'True' & df_l$in_train == 'False' & df_l$in_test == 'False']
+)
+
+predict_xl_pam30 <- data.frame(
+  group = 'SARITA XL',
+  pam30 = df_xl$PAM30[df_xl$in_predict == 'True' & df_xl$in_train == 'False' & df_xl$in_test == 'False']
+)
+
+predict_xl_pam30 <- data.frame(
+  group = 'SARITA XL',
+  pam30 = df_xl$PAM30[df_xl$in_predict == 'True' & df_xl$in_train == 'False' & df_xl$in_test == 'False']
+)
+
+predict_rs_pam30 <- data.frame(
+  group = 'RITA S',
+  pam30 = df_rs$PAM30[df_rs$in_predict == 'True' & df_rs$in_train == 'False' & df_rs$in_test == 'False']
+)
+
+predict_rm_pam30 <- data.frame(
+  group = 'RITA M',
+  pam30 = df_rm$PAM30[df_rm$in_predict == 'True' & df_rm$in_train == 'False' & df_rm$in_test == 'False']
+)
+
+predict_rl_pam30 <- data.frame(
+  group = 'RITA L',
+  pam30 = df_rl$PAM30[df_rl$in_predict == 'True' & df_rl$in_train == 'False' & df_rl$in_test == 'False']
+)
+
+predict_rxl_pam30 <- data.frame(
+  group = 'RITA XL',
+  pam30 = df_rxl$PAM30[df_rxl$in_predict == 'True' & df_rxl$in_train == 'False' & df_rxl$in_test == 'False']
+)
+
+#predict_sp_pam30 <- data.frame(
+#  group = 'SpikeGPT2',
+#  pam30 = df_sp$PAM30[df_sp$in_predict == 'True' & df_sp$in_train == 'False' & #df_sp$in_test == 'False']
+#)
+
+# Create placeholders for missing models (without data)
+#missing_models <- data.frame(
+#  group = c('RITA XL', 'RITA L', 'RITA M', 'RITA S', 'Rand Fr', 'Rand', 'SpikeGPT2'),
+#  pam30 = rep(NA, 7)  # Placeholder for missing values
+#)
+
+missing_models <- data.frame(
+  group = c('SpikeGPT2'),
+  pam30 = rep(NA, 1)  # Placeholder for missing values
+)
+
+# Combine all data frames including placeholders for missing data
+plot.df <- rbind(
+  train_pam30,
+  test_pam30,
+  predict_ra_pam30,
+  predict_rw_pam30,
+  random_pam30,
+  predict_rs_pam30,
+  predict_rm_pam30,
+  predict_rl_pam30,
+  predict_rxl_pam30,
+  predict_s_pam30,
+  predict_m_pam30,
+  predict_l_pam30,
+  predict_xl_pam30,
+#  predict_sp_pam30,
+  missing_models  # Adding placeholders for the models with no data
+)
+
+# Convert 'group' to a factor to control the order in the plot
+plot.df$group <- factor(plot.df$group, levels = c('Train','Test','Rand', 'Rand Fr', 'Rand PAM30', 'RITA S', 'RITA M', 'RITA L', 'RITA XL', 'SpikeGPT2', 'SARITA S', 'SARITA M', 'SARITA L', 'SARITA XL'))
+
+# Create a boxplot with placeholders for missing data
+ggplot(plot.df, aes(x = group, y = pam30, fill = group)) + 
+  geom_boxplot(na.rm = TRUE) +  # Show boxplot only for models with data
+  geom_point(data = missing_models, aes(x = group, y = 0), shape = 8, size = 5, color = "black") +  # Asterisk for missing data
+  scale_fill_manual(values = c(
+    '#dddddd', '#dddddd', '#2ca02c', '#bcbd22', '#17becf', '#ff9896', '#98df8a', '#e377c2',
+    '#7f7f7f', '#bcbd22', '#17becf', '#ff9896', '#98df8a','#7f7f7f' )) +  # Grey for missing data
+  theme_cowplot() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5),
+        axis.line = element_blank(),
+        legend.position = "none") +  # Remove legend
+  xlab('Group') + ylab('PAM30 Score') +
+  ggtitle('PAM30 Scores of Generated Mutations Across Different Models')
+
+# Save the plot
+ggsave(file.path(base_dir, 'pam30_boxplot_combined_with_missing_only_mutation_new.png'), width = 8, height = 5)
+
+```
+
+
+
+```{r setup, include=FALSE}
+# Carica le librerie necessarie
+library(ggplot2)
+base_dir <- "/Users/utente/Desktop/Varcovid/GenSeq/Model/Generattion"
+# Lista dei file da caricare
+files <- list(
+  "density_differences_random_blosum.csv",
+  "density_differences_SpikeGPT2.csv",
+  "density_differences_run_clm_256_s.csv",
+  "density_differences_run_clm_256_m.csv",
+  "density_differences_run_clm_256_l.csv",
+  "density_differences_run_clm_256_xl.csv"
+)
+
+# Lista dei nomi dei modelli nell'ordine corretto per la legenda
+labels <- c('Rand PAM30', 'SpikeGPT2', 'SARITA S', 'SARITA M', 'SARITA L', 'SA1RITA XL')
+
+# Assegna i colori specifici per i modelli
+colors <- c('#2ca02c', '#7f7f7f', '#bcbd22', '#17becf', '#ff9896', '#98df8a')
+
+# Carica i dati e crea un dataframe unificato per ciascun file
+data_list <- lapply(seq_along(files), function(i) {
+  df <- read.csv(file.path(base_dir, 'calc', files[[i]]))
+  df$model <- labels[i]
+  return(df)
+})
+
+# Unisci tutti i dataframe in uno solo
+density_data <- do.call(rbind, data_list)
+
+# Plot 1: diff_648fff_dc267f
+plot1 <- ggplot(density_data, aes(x = x, y = diff_648fff_dc267f, color = model)) +
+  geom_line() +
+  scale_color_manual(values = colors, breaks = labels) +
+  labs(title = "Density Differences Between Train Set and Prediction",
+       x = "Position (x)", y = "Density Difference") +
+  theme_minimal()
+
+# Salva il primo grafico come PNG
+ggsave(filename = file.path(base_dir, "density_train_pred.png"), plot = plot1, width = 10, height = 6)
+
+# Plot 2: diff_785ef0_dc267f
+plot2 <- ggplot(density_data, aes(x = x, y = diff_785ef0_dc267f, color = model)) +
+  geom_line() +
+  scale_color_manual(values = colors, breaks = labels) +
+  labs(title = "Density Differences Between Test Set and Prediction",
+       x = "Position (x)", y = "Density Difference") +
+  theme_minimal()+
+  theme(axis.line = element_blank())
+
+# Salva il secondo grafico come PNG
+ggsave(filename = file.path(base_dir, "density_test_pred.png"), plot = plot2, width = 10, height = 6)
+
+
+# Calcola la media per diff_648fff_dc267f e diff_785ef0_dc267f per ogni modello
+mean_648fff_dc267f <- aggregate(diff_648fff_dc267f ~ model, data = density_data, FUN = mean)
+mean_785ef0_dc267f <- aggregate(diff_785ef0_dc267f ~ model, data = density_data, FUN = mean)
+# Calcolo del MAE e MSE per diff_648fff_dc267f
+mae_648fff <- aggregate(diff_648fff_dc267f ~ model, data = density_data, FUN = function(x) mean(abs(x)))
+mse_648fff <- aggregate(diff_648fff_dc267f ~ model, data = density_data, FUN = function(x) mean(x^2))
+
+# Calcolo del MAE e MSE per diff_785ef0_dc267f
+mae_785ef0 <- aggregate(diff_785ef0_dc267f ~ model, data = density_data, FUN = function(x) mean(abs(x)))
+mse_785ef0 <- aggregate(diff_785ef0_dc267f ~ model, data = density_data, FUN = function(x) mean(x^2))
+
+
+# Visualizza le mediane calcolate
+print(mean_648fff_dc267f)
+print(mean_785ef0_dc267f)
+
+# Boxplot per diff_648fff_dc267f
+boxplot_648fff <- ggplot(density_data, aes(x = model, y = diff_648fff_dc267f, fill = model)) +
+  geom_boxplot() +
+  labs(title = "Boxplot of Difference Density by Models (Train - Pred)", x = "Model", y = "Density Difference") +
+  theme_minimal()
+
+# Salva il boxplot
+ggsave(filename = file.path(base_dir, "boxplot_diff_train_pred.png"), plot = boxplot_648fff, width = 10, height = 6)
+
+# Boxplot per diff_785ef0_dc267f
+boxplot_785ef0 <- ggplot(density_data, aes(x = model, y = diff_785ef0_dc267f, fill = model)) +
+  geom_boxplot() +
+  labs(title = "Boxplot of Difference Density by Models (Test - Pred)", x = "Model", y = "Density Difference") +
+  theme_minimal()
+
+# Salva il boxplot
+ggsave(filename = file.path(base_dir, "boxplot_diff_test_pred.png"), plot = boxplot_785ef0, width = 10, height = 6)
+
+
+
+
+```
+
+
+```{r setup, include=FALSE}
+# Inizializzazione dei vettori per memorizzare i risultati
+models <- unique(density_data$model)
+mean_648fff_dc267f <- data.frame(model = character(), mean_diff = numeric(), stringsAsFactors = FALSE)
+mean_785ef0_dc267f <- data.frame(model = character(), mean_diff = numeric(), stringsAsFactors = FALSE)
+
+mae_648fff <- data.frame(model = character(), mae_diff = numeric(), stringsAsFactors = FALSE)
+mse_648fff <- data.frame(model = character(), mse_diff = numeric(), stringsAsFactors = FALSE)
+
+mae_785ef0 <- data.frame(model = character(), mae_diff = numeric(), stringsAsFactors = FALSE)
+mse_785ef0 <- data.frame(model = character(), mse_diff = numeric(), stringsAsFactors = FALSE)
+
+# Calcolo per ogni modello
+for (mod in models) {
+  # Filtra i dati per il modello corrente
+  mod_data <- density_data[density_data$model == mod, ]
+  
+  # Media
+  mean_diff_648fff <- mean(mod_data$diff_648fff_dc267f, na.rm = TRUE)
+  mean_diff_785ef0 <- mean(mod_data$diff_785ef0_dc267f, na.rm = TRUE)
+  
+  # MAE
+  mae_diff_648fff <- mean(abs(mod_data$diff_648fff_dc267f), na.rm = TRUE)
+  mae_diff_785ef0 <- mean(abs(mod_data$diff_785ef0_dc267f), na.rm = TRUE)
+  
+  # MSE
+  mse_diff_648fff <- mean((mod_data$diff_648fff_dc267f)^2, na.rm = TRUE)
+  mse_diff_785ef0 <- mean((mod_data$diff_785ef0_dc267f)^2, na.rm = TRUE)
+  
+  # Aggiungi i risultati ai data frame
+  mean_648fff_dc267f <- rbind(mean_648fff_dc267f, data.frame(model = mod, mean_diff = mean_diff_648fff))
+  mean_785ef0_dc267f <- rbind(mean_785ef0_dc267f, data.frame(model = mod, mean_diff = mean_diff_785ef0))
+  
+  mae_648fff <- rbind(mae_648fff, data.frame(model = mod, mae_diff = mae_diff_648fff))
+  mse_648fff <- rbind(mse_648fff, data.frame(model = mod, mse_diff = mse_diff_648fff))
+  
+  mae_785ef0 <- rbind(mae_785ef0, data.frame(model = mod, mae_diff = mae_diff_785ef0))
+  mse_785ef0 <- rbind(mse_785ef0, data.frame(model = mod, mse_diff = mse_diff_785ef0))
+}
+
+# Stampa i risultati
+print("Mean for diff_648fff_dc267f:")
+print(mean_648fff_dc267f)
+
+print("Mean for diff_785ef0_dc267f:")
+print(mean_785ef0_dc267f)
+
+print("MAE for diff_648fff_dc267f:")
+print(mae_648fff)
+
+print("MSE for diff_648fff_dc267f:")
+print(mse_648fff)
+
+print("MAE for diff_785ef0_dc267f:")
+print(mae_785ef0)
+
+print("MSE for diff_785ef0_dc267f:")
+print(mse_785ef0)
+```
+
