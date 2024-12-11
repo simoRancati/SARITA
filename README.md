@@ -1,6 +1,6 @@
 # SARITA
 ![Symbol](Symbol.png)
-SARITA, a GPT-3-based LLM with 1.2B parameters, generates synthetic SARS-CoV-2 Spike S1 sequences. Built on the RITA protein model, it uses continuous learning. When trained on Alpha, Beta, and Gamma variants (data up to Feb 2021), SARITA accurately predicts future S1 mutations
+SARITA, a GPT-3-based LLM with 1.2B parameters, generates synthetic SARS-CoV-2 Spike S1 sequences. Built on the RITA protein model, it uses continuous learning. When trained on Alpha, Beta, and Gamma variants (data up to Feb 2021), SARITA accurately predicts future S1 mutations. The Pre-print paper is avaiable [here](https://www.biorxiv.org/content/10.1101/2024.12.10.627777v1)
 
 This model is a continuous learning of [lightonai/RITA_s](https://huggingface.co/lightonai/RITA_s).
 It achieves the following results on the evaluation set:
