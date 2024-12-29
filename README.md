@@ -26,7 +26,7 @@ Model | #Params | d_model | layers
 
 ## Model description
 
-SARITA S is an LLM with 85 million parameters, based on GPT-3 architecture, designed to generate high-quality synthetic SARS-CoV-2 Spike sequences. 
+SARITA is an LLM with up to 1.2B parameters, based on GPT-3 architecture, designed to generate high-quality synthetic SARS-CoV-2 Spike sequences. 
 SARITA is trained via continuous learning on the pre-existing protein model RITA.
 
 ## Intended uses & limitations
