@@ -25,35 +25,6 @@ SARITA is trained via continuous learning on the pre-existing protein model RITA
 
 This model can be used by user to generate synthetic Spike proteins of SARS-CoV-2 Virus. 
 
-
-### Training hyperparameters
-
-The following hyperparameters were used during training:
-- learning_rate: 5e-05
-- train_batch_size: 48
-- eval_batch_size: 48
-- seed: 42
-- optimizer: Adam with betas=(0.9,0.999) and epsilon=1e-08
-- lr_scheduler_type: linear
-- num_epochs: 10
-- mixed_precision_training: Native AMP
-
-### Training results
-
-| Training Loss | Epoch | Step   | Validation Loss | Accuracy |
-|:-------------:|:-----:|:------:|:---------------:|:--------:|
-| 0.0303        | 1.0   | 10013  | 0.0302          | 0.9912   |
-| 0.0297        | 2.0   | 20026  | 0.0300          | 0.9912   |
-| 0.0294        | 3.0   | 30039  | 0.0295          | 0.9913   |
-| 0.0294        | 4.0   | 40052  | 0.0294          | 0.9913   |
-| 0.0293        | 5.0   | 50065  | 0.0294          | 0.9913   |
-| 0.0292        | 6.0   | 60078  | 0.0293          | 0.9914   |
-| 0.029         | 7.0   | 70091  | 0.0293          | 0.9914   |
-| 0.0288        | 8.0   | 80104  | 0.0293          | 0.9914   |
-| 0.0285        | 9.0   | 90117  | 0.0294          | 0.9914   |
-| 0.0283        | 10.0  | 100130 | 0.0295          | 0.9914   |
-
-
 ### Framework versions
 
 - Transformers 4.20.1
@@ -99,7 +70,7 @@ This Repository contains all the code used to built the [datatset](/Dataset), to
 
 # IMPORTANT 
 SARITA model is public, but downloading it requires approval.  
-To request access, go to [HuggingFace]( https://huggingface.co/SimoRancati) and click on the **Request Access** button and provide a brief explanation of your intended use.
+To request access, go to [HuggingFace](https://huggingface.co/SimoRancati/SARITA) and click on the **Request Access** button and provide a brief explanation of your intended use.
 
 ## License
 The use of this model is restricted to research purposes. Commercial use is not allowed without prior approval.
