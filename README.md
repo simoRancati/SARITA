@@ -1,12 +1,10 @@
 # SARITA
 ![Symbol](Symbol.png)
-SARITA, a GPT-3-based LLM with 1.2B parameters, generates synthetic SARS-CoV-2 Spike S1 sequences. Built on the RITA protein model, it uses continuous learning. When trained on Alpha, Beta, and Gamma variants (data up to Feb 2021), SARITA accurately predicts future S1 mutations. The Pre-print paper is avaiable [here](https://www.biorxiv.org/content/10.1101/2024.12.10.627777v1)
+SARITA, a GPT-3-based LLM with up to 1.2B parameters, generates synthetic SARS-CoV-2 Spike S1 sequences. Built on the RITA protein model, it uses continuous learning. When trained on Alpha, Beta, and Gamma variants (data up to Feb 2021), SARITA accurately predicts future S1 mutations. The Pre-print paper is avaiable [here](https://www.biorxiv.org/content/10.1101/2024.12.10.627777v1)
 
-This model is a continuous learning of [lightonai/RITA_s](https://huggingface.co/lightonai/RITA_s).
-It achieves the following results on the evaluation set:
-- Loss: 0.0293
-- Accuracy: 0.9914
+This model is a continuous learning of [lightonai/RITA](https://huggingface.co/lightonai).
 
+SARITA models trained with high-quality SARS-CoV-2 S1 sequences from December 2019 - March 2021 (click on the model's name)
 
 Model | #Params | d_model | layers 
 --- | --- | --- | --- | 
@@ -14,6 +12,16 @@ Model | #Params | d_model | layers
 [Medium](https://huggingface.co/SimoRancati/SARITA_M) | 300M | 1024 | 24 
 [Large](https://huggingface.co/SimoRancati/SARITA_L)| 680M | 1536 | 24 
 [XLarge](https://huggingface.co/SimoRancati/SARITA_XL)| 1.2B | 2048 | 24 
+
+
+SARITA models trained with high-quality SARS-CoV-2 S1 sequences from December 2019 - August 2024 (click on the model's name)
+
+Model | #Params | d_model | layers 
+--- | --- | --- | --- | 
+[Small](https://huggingface.co/SimoRancati/SARITA_S.0.1) | 85M  | 768 | 12 
+[Medium](https://huggingface.co/SimoRancati/SARITA_M.0.1) | 300M | 1024 | 24 
+[Large](https://huggingface.co/SimoRancati/SARITA_L.0.1)| 680M | 1536 | 24 
+[XLarge]((https://huggingface.co/SimoRancati/SARITA_XL.0.1))| 1.2B | 2048 | 24 
 
 
 ## Model description
