@@ -45,10 +45,11 @@ This model can be used by user to generate synthetic Spike proteins of SARS-CoV-
 Instantiate a model like so:
 ``` python
 from transformers import AutoModelForCausalLM, AutoTokenizer
-model = AutoModelForCausalLM.from_pretrained("SimoRancati/SARITA_*", trust_remote_code=True)
-tokenizer = AutoTokenizer.from_pretrained("SimoRancati/SARITA_*")
+# Download manually from the HuggingFace Repository the model in your local environment
+model = AutoModelForCausalLM.from_pretrained("Path/SARITA_L", trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained("Path/SARITA_L")
 ```
-for generation used this code:
+If you want to generate the S1 subunit sequence or longer sequence, use this code:
 ``` python
 # Check for GPU availability and move the model to GPU
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -63,6 +64,54 @@ for i in range(len(start)):
 
     # Generate predictions using the model
     generated_ids = model.generate(**model_inputs, min_length=701, max_length=701,
+                                   do_sample=True, top_k=950, repetition_penalty=1.2,
+                                   num_return_sequences=100, eos_token_id=2, truncation=True)
+
+    # Decode and print outputs
+    generated_sequences = []
+    for f in range(len(generated_ids)):
+        sequence = tokenizer.decode(generated_ids[f], skip_special_tokens=True).replace(' ', '')
+        generated_sequences.append(sequence)
+```
+If you want to generate the S1 subunit sequence, use this code:
+``` python
+# Check for GPU availability and move the model to GPU
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model = model.to(device)
+
+start = ['MFVFLVLLPLVSSQ']
+
+for i in range(len(start)):
+    # Prepare model inputs
+    model_inputs = tokenizer([start[i]], return_tensors="pt")
+    model_inputs = {k: v.to(device) for k, v in model_inputs.items()}
+
+    # Generate predictions using the model
+    generated_ids = model.generate(**model_inputs, min_length=687, max_length=687,
+                                   do_sample=True, top_k=950, repetition_penalty=1.2,
+                                   num_return_sequences=100, eos_token_id=2, truncation=True)
+
+    # Decode and print outputs
+    generated_sequences = []
+    for f in range(len(generated_ids)):
+        sequence = tokenizer.decode(generated_ids[f], skip_special_tokens=True).replace(' ', '')
+        generated_sequences.append(sequence)
+```
+If you want to generate other subunit sequence (Example RBD), use this code:
+``` python
+# Check for GPU availability and move the model to GPU
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model = model.to(device)
+
+start = ['DDFTGCVIAW']
+
+for i in range(len(start)):
+    # Prepare model inputs
+    model_inputs = tokenizer([start[i]], return_tensors="pt")
+    model_inputs = {k: v.to(device) for k, v in model_inputs.items()}
+
+    # Generate predictions using the model
+    generated_ids = model.generate(**model_inputs, min_length=79, max_length=79,
                                    do_sample=True, top_k=950, repetition_penalty=1.2,
                                    num_return_sequences=100, eos_token_id=2, truncation=True)
 
