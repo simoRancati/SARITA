@@ -4,7 +4,7 @@ SARITA, a GPT-3-based LLM with up to 1.2B parameters, generates synthetic SARS-C
 
 This model is a continuous learning of [lightonai/RITA](https://huggingface.co/lightonai).
 
-SARITA models trained with high-quality SARS-CoV-2 S1 sequences from December 2019 - March 2021 (click on the model's name)
+SARITA models trained with high-quality SARS-CoV-2 S1 sequences from December 2019 - March 2021. **Click on any model name (e.g. Small, Medium, Large and XLarge) to go to its dedicated page, where you’ll find detailed access instructions and example code snippets to help you reproduce our results.**
 
 Model | #Params | d_model | layers 
 --- | --- | --- | --- | 
@@ -14,7 +14,7 @@ Model | #Params | d_model | layers
 [XLarge](https://huggingface.co/SimoRancati/SARITA_XL)| 1.2B | 2048 | 24 
 
 
-SARITA models trained with high-quality SARS-CoV-2 S1 sequences from December 2019 - August 2024 (click on the model's name)
+SARITA models trained with high-quality SARS-CoV-2 S1 sequences from December 2019 - August 2024. **Click on any model name (e.g. Small, Medium, Large and XLarge) to go to its dedicated page, where you’ll find detailed access instructions and example code snippets to help you reproduce our results.**
 
 Model | #Params | d_model | layers 
 --- | --- | --- | --- | 
