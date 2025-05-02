@@ -46,8 +46,8 @@ Instantiate a model like so:
 ``` python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 # Download manually from the HuggingFace Repository the model in your local environment
-model = AutoModelForCausalLM.from_pretrained("Path/SARITA_L", trust_remote_code=True)
-tokenizer = AutoTokenizer.from_pretrained("Path/SARITA_L")
+model = AutoModelForCausalLM.from_pretrained("Path/SARITA_*", trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained("Path/SARITA_*")
 ```
 If you want to generate the S1 subunit sequence or longer sequence, use this code:
 ``` python
