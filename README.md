@@ -21,7 +21,7 @@ Model | #Params | d_model | layers
 [Small](https://huggingface.co/SimoRancati/SARITA_S.0.1) | 85M  | 768 | 12 
 [Medium](https://huggingface.co/SimoRancati/SARITA_M.0.1) | 300M | 1024 | 24 
 [Large](https://huggingface.co/SimoRancati/SARITA_L.0.1)| 680M | 1536 | 24 
-[XLarge]((https://huggingface.co/SimoRancati/SARITA_XL.0.1))| 1.2B | 2048 | 24 
+[XLarge](https://huggingface.co/SimoRancati/SARITA_XL.0.1)| 1.2B | 2048 | 24 
 
 
 ## Model description
