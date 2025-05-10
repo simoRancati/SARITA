@@ -158,6 +158,7 @@ Once the dashboard is loaded, follow these steps:
 1. Load the Model
     In the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize.
 2. Configure Sequence Generation
+
     a) Prompt: Optional amino-acid starting sequence (e.g., MFVFLVLLPLVSSQ);
    
     b) Min/Max Length: Define the desired length of the generated sequence;
