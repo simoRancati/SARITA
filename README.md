@@ -126,7 +126,7 @@ for i in range(len(start)):
 This Repository contains all the code used to built the [datatset](/Dataset), to [train the model](/Training), to [generate synthetic sequences](/Generation) and to [evaluate the different models](/Evaluation)
 
 # Dashboard
-![Symbol](PipeLineCodici.png)
+![Symbol](Dashboard.png)
 
 ## 💻 Installation
 
