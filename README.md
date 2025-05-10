@@ -125,6 +125,47 @@ for i in range(len(start)):
 ![Symbol](PipeLineCodici.png)
 This Repository contains all the code used to built the [datatset](/Dataset), to [train the model](/Training), to [generate synthetic sequences](/Generation) and to [evaluate the different models](/Evaluation)
 
+# Dashboard
+## 💻 Installation
+
+To run the dashboard locally, you need Python ≥ 3.8 and the following packages:
+
+```bash
+pip install torch==2.7.0
+pip install dash==2.8.1
+pip install plotly==5.13.1
+## 🚀 How to Launch
+
+1. Clone this repository
+'''bash
+git clone https://github.com/your-username/SARITA-dashboard.git
+cd SARITA-dashboard
+,,,
+2. Download the model checkpoint
+After approval on Hugging Face, download the SARITA model files and place them in a local directory.
+3. Run the dashboard
+'''bash
+python dashboard.py
+,,,
+4. Open the app in your browser
+Go to http://127.0.0.1:8050. The dashboard should open automatically.
+
+## 🧪 How to Use
+
+Once the dashboard is loaded, follow these steps:
+
+1. Load the Model
+    In the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize.
+2. Configure Sequence Generation
+    Prompt: Optional amino-acid starting sequence (e.g., MFVFLVLLPLVSSQ)
+    Min/Max Length: Define the desired length of the generated sequence
+    Repetition Penalty: Set a value (e.g., 1.2) to discourage repeated residues
+    Sequence Count: Number of sequences to generate
+3. Click Generate
+    The model will produce the sequence(s), save them locally as .fasta files, and display a bar plot of the amino acid distribution.
+## 📂 Output
+Sequences are saved in the current working directory in FASTA format. Each result is accompanied by a residue composition chart, to help assess the diversity and structure of the generated sequence.
+
 # IMPORTANT 
 SARITA model is public, but downloading it requires approval.  
 To request access, go to [HuggingFace](https://huggingface.co/SimoRancati/SARITA) and click on the **Request Access** button and provide a brief explanation of your intended use.
