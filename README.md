@@ -126,6 +126,8 @@ for i in range(len(start)):
 This Repository contains all the code used to built the [datatset](/Dataset), to [train the model](/Training), to [generate synthetic sequences](/Generation) and to [evaluate the different models](/Evaluation)
 
 # Dashboard
+![Symbol](PipeLineCodici.png)
+
 ## 💻 Installation
 
 To run the dashboard locally, you need Python ≥ 3.8 and the following packages:
@@ -155,9 +157,8 @@ python dashboard.py
 
 Once the dashboard is loaded, follow these steps:
 
-1. Load the Model
-    In the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize.
-2. Configure Sequence Generation
+1. Load the Model from  in the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize.
+3. Configure Sequence Generation
 
     a) Prompt: Optional amino-acid starting sequence (e.g., MFVFLVLLPLVSSQ);
    
@@ -173,7 +174,7 @@ Sequences are saved in the current working directory in FASTA format. Each resul
 
 # IMPORTANT 
 SARITA model is public, but downloading it requires approval.  
-To request access, go to [HuggingFace](https://huggingface.co/SimoRancati/SARITA) and click on the **Request Access** button and provide a brief explanation of your intended use.
+To request access, go to [HuggingFace](https://huggingface.co/SimoRancati/SARITA) and click on the relative that you want and click on the **Request Access** button and provide a brief explanation of your intended use.
 
 ## License
 The use of this model is restricted to research purposes. Commercial use is not allowed without prior approval.
