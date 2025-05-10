@@ -157,8 +157,8 @@ python dashboard.py
 
 Once the dashboard is loaded, follow these steps:
 
-1. Load the Model from  in the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize.
-3. Configure Sequence Generation
+1. Load the Model from  in the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize. ![Symbol](Loadmodel.png)
+2. Configure Sequence Generation
 
     a) Prompt: Optional amino-acid starting sequence (e.g., MFVFLVLLPLVSSQ);
    
@@ -167,7 +167,7 @@ Once the dashboard is loaded, follow these steps:
     c) Repetition Penalty: Set a value (e.g., 1.2) to discourage repeated residues;
    
     d) Sequence Count: Number of sequences to generate.
-4. Click Generate
+3. Click Generate
     The model will produce the sequence(s), save them locally as .fasta files, and display a bar plot of the amino acid distribution.
 ## 📂 Output
 Sequences are saved in the current working directory in FASTA format. Each result is accompanied by a residue composition chart, to help assess the diversity and structure of the generated sequence.
