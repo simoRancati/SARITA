@@ -168,7 +168,7 @@ Once the dashboard is loaded, follow these steps:
    
     d) Sequence Count: Number of sequences to generate. ![Symbol](Parameters.png)
 3. Click Generate
-    The model will produce the sequence(s), save them locally as .fasta files, and display a bar plot of the amino acid distribution.
+    The model will produce the sequence(s), save them locally as .fasta files, and display a bar plot of the amino acid distribution. (The barplot is optained with Prompt:  'MFVFLVLLPLVSSQ', Min Length 32, Max Length 35, Repetition Penalty 1.2, Sequence Count 1) ![Symbol](Plot_aa.png)
 ## 📂 Output
 Sequences are saved in the current working directory in FASTA format. Each result is accompanied by a residue composition chart, to help assess the diversity and structure of the generated sequence.
 
