@@ -149,7 +149,7 @@ cd SARITA-dashboard
 python dashboard.py
 ```
 4. Open the app in your browser
-Go to http://127.0.0.1:8050. The dashboard should open automatically.
+    Go to http://127.0.0.1:8050. The dashboard should open automatically.
 
 ## 🧪 How to Use
 
