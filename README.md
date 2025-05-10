@@ -134,20 +134,20 @@ To run the dashboard locally, you need Python ≥ 3.8 and the following packages
 pip install torch==2.7.0
 pip install dash==2.8.1
 pip install plotly==5.13.1
-,,,
+```
 ## 🚀 How to Launch
 
 1. Clone this repository
-'''bash
+```bash
 git clone https://github.com/your-username/SARITA-dashboard.git
 cd SARITA-dashboard
-,,,
+```
 2. Download the model checkpoint
 After approval on Hugging Face, download the SARITA model files and place them in a local directory.
 3. Run the dashboard
-'''bash
+```bash
 python dashboard.py
-,,,
+```
 4. Open the app in your browser
 Go to http://127.0.0.1:8050. The dashboard should open automatically.
 
