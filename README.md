@@ -159,10 +159,13 @@ Once the dashboard is loaded, follow these steps:
     In the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize.
 2. Configure Sequence Generation
     a) Prompt: Optional amino-acid starting sequence (e.g., MFVFLVLLPLVSSQ);
+   
     b) Min/Max Length: Define the desired length of the generated sequence;
+   
     c) Repetition Penalty: Set a value (e.g., 1.2) to discourage repeated residues;
+   
     d) Sequence Count: Number of sequences to generate.
-3. Click Generate
+4. Click Generate
     The model will produce the sequence(s), save them locally as .fasta files, and display a bar plot of the amino acid distribution.
 ## 📂 Output
 Sequences are saved in the current working directory in FASTA format. Each result is accompanied by a residue composition chart, to help assess the diversity and structure of the generated sequence.
