@@ -143,7 +143,7 @@ git clone https://github.com/your-username/SARITA-dashboard.git
 cd SARITA-dashboard
 ```
 2. Download the model checkpoint
-After approval on Hugging Face, download the SARITA model files and place them in a local directory.
+    After approval on Hugging Face, download the SARITA model files and place them in a local directory.
 3. Run the dashboard
 ```bash
 python dashboard.py
@@ -158,10 +158,10 @@ Once the dashboard is loaded, follow these steps:
 1. Load the Model
     In the “Local Model Directory” field, enter the path to the folder containing the model files. Click Load Model to initialize.
 2. Configure Sequence Generation
-    Prompt: Optional amino-acid starting sequence (e.g., MFVFLVLLPLVSSQ)
-    Min/Max Length: Define the desired length of the generated sequence
-    Repetition Penalty: Set a value (e.g., 1.2) to discourage repeated residues
-    Sequence Count: Number of sequences to generate
+    a) Prompt: Optional amino-acid starting sequence (e.g., MFVFLVLLPLVSSQ);
+    b) Min/Max Length: Define the desired length of the generated sequence;
+    c) Repetition Penalty: Set a value (e.g., 1.2) to discourage repeated residues;
+    d) Sequence Count: Number of sequences to generate.
 3. Click Generate
     The model will produce the sequence(s), save them locally as .fasta files, and display a bar plot of the amino acid distribution.
 ## 📂 Output
